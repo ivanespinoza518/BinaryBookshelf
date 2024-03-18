@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "U4yx4ZthfdFG/KZFZy8ycFuOHrolW390a07OZurQ0AA=",
+  "Source": "BinaryBookshelfServer",
+  "BasePath": "_content/BinaryBookshelfServer",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
