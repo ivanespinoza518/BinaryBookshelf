@@ -23,9 +23,8 @@ namespace BinaryBookshelfServer.Data.Models
         public required string Label { get; set; }
 
         /// <summary>
-        /// A collection of all categorizations
+        /// A collection of all books with this category
         /// </summary>
         public ICollection<Book> Books { get; } = [];
-        public virtual ICollection<Categorization> Categorizations { get; } = [];
     }
 }

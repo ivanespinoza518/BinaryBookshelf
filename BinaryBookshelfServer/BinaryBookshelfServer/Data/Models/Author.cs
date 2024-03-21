@@ -24,12 +24,11 @@ namespace BinaryBookshelfServer.Data.Models
         /// <summary>
         /// Author's background information
         /// </summary>
-        public string Background { get; set; } = null!;
+        public string? Background { get; set; }
 
         /// <summary>
-        /// A collection of all authorships
+        /// A collection of all books written by author
         /// </summary>
         public ICollection<Book> Books { get; } = [];
-        public virtual ICollection<Authorship> Authorships { get; } = [];
     }
 }

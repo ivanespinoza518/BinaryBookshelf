@@ -28,24 +28,24 @@ namespace BinaryBookshelfServer.Data.Models
         /// </summary>
         [StringLength(100)]
         [Unicode(false)]
-        public string Subtitle { get; set; } = null!;
+        public string? Subtitle { get; set; }
 
         /// <summary>
         /// Book image url
         /// </summary>
         [Unicode(false)]
-        public required string ImageUrl { get; set; } = null!;
+        public required string ImageUrl { get; set; }
 
         /// <summary>
         /// Book description
         /// </summary>
         [Unicode(false)]
-        public string Description { get; set; } = null!;
+        public required string Description { get; set; }
 
         /// <summary>
         /// Book average price
         /// </summary>
-        [Column(TypeName = "numeric(8, 2")]
+        [Column(TypeName = "numeric(8, 2)")]
         public decimal Price { get; set; }
 
         /// <summary>
@@ -64,12 +64,10 @@ namespace BinaryBookshelfServer.Data.Models
         /// https://learn.microsoft.com/en-us/ef/core/modeling/relationships/mapping-attributes
         /// </summary>
         public ICollection<Author> Authors { get; } = []; 
-        public virtual ICollection<Authorship> Authorships { get; } = [];
 
         /// <summary>
-        /// A collection of all categories of the book
+        /// A collection of all categories that describe the book
         /// </summary>
         public ICollection<Category> Categories { get; } = [];
-        public virtual ICollection<Categorization> Categorizations { get; } = [];
     }
 }

@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("69476956-7910-4053-a65f-4c6733ef5722")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("BinaryBookshelfServer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b4a3e4edabc95412a132b20ff14b6ef4631df93e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c299b626c2b0428390492e285eea1d4fec9842e")]
 [assembly: System.Reflection.AssemblyProductAttribute("BinaryBookshelfServer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BinaryBookshelfServer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
