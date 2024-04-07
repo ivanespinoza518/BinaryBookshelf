@@ -14,6 +14,15 @@ namespace BinaryBookshelfServer.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(
+                typeof(ApplicationDbContext).Assembly 
+                );
+        }
+
         public DbSet<Book> Books => Set<Book>();
         public DbSet<Author> Authors => Set<Author>();
         public DbSet<Category> Categories => Set<Category>();

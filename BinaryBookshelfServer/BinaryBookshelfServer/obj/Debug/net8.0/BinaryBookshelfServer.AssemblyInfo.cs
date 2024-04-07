@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BinaryBookshelfServer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c299b626c2b0428390492e285eea1d4fec9842e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a7a5a42e968384215bfc01498bdb59e257b6d137")]
 [assembly: System.Reflection.AssemblyProductAttribute("BinaryBookshelfServer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BinaryBookshelfServer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

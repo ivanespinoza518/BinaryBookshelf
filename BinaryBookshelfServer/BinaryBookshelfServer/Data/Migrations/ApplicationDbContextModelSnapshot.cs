@@ -21,21 +21,6 @@ namespace BinaryBookshelfServer.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AuthorBook", b =>
-                {
-                    b.Property<int>("AuthorsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BooksId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuthorsId", "BooksId");
-
-                    b.HasIndex("BooksId");
-
-                    b.ToTable("AuthorBook");
-                });
-
             modelBuilder.Entity("BinaryBookshelfServer.Data.Models.Author", b =>
                 {
                     b.Property<int>("Id")
@@ -45,7 +30,8 @@ namespace BinaryBookshelfServer.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Background")
-                        .HasColumnType("nvarchar(max)");
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -56,7 +42,7 @@ namespace BinaryBookshelfServer.Data.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("BinaryBookshelfServer.Data.Models.Book", b =>
@@ -67,15 +53,25 @@ namespace BinaryBookshelfServer.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
 
+                    b.Property<int>("Edition")
+                        .HasColumnType("int");
+
                     b.Property<string>("ImageUrl")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(max)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Isbn13")
                         .IsRequired()
@@ -93,17 +89,20 @@ namespace BinaryBookshelfServer.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("Price");
 
                     b.HasIndex("Title");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("BinaryBookshelfServer.Data.Models.Category", b =>
@@ -116,60 +115,44 @@ namespace BinaryBookshelfServer.Data.Migrations
 
                     b.Property<string>("Label")
                         .IsRequired()
-                        .HasMaxLength(25)
+                        .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(25)");
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Label");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
-            modelBuilder.Entity("BookCategory", b =>
+            modelBuilder.Entity("BinaryBookshelfServer.Data.Models.Book", b =>
                 {
-                    b.Property<int>("BooksId")
-                        .HasColumnType("int");
+                    b.HasOne("BinaryBookshelfServer.Data.Models.Author", "Author")
+                        .WithMany("Books")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("int");
+                    b.HasOne("BinaryBookshelfServer.Data.Models.Category", "Category")
+                        .WithMany("Books")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasKey("BooksId", "CategoriesId");
+                    b.Navigation("Author");
 
-                    b.HasIndex("CategoriesId");
-
-                    b.ToTable("BookCategory");
+                    b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("AuthorBook", b =>
+            modelBuilder.Entity("BinaryBookshelfServer.Data.Models.Author", b =>
                 {
-                    b.HasOne("BinaryBookshelfServer.Data.Models.Author", null)
-                        .WithMany()
-                        .HasForeignKey("AuthorsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BinaryBookshelfServer.Data.Models.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Books");
                 });
 
-            modelBuilder.Entity("BookCategory", b =>
+            modelBuilder.Entity("BinaryBookshelfServer.Data.Models.Category", b =>
                 {
-                    b.HasOne("BinaryBookshelfServer.Data.Models.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BinaryBookshelfServer.Data.Models.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }
