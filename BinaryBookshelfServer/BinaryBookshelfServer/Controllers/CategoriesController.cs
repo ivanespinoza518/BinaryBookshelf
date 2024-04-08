@@ -35,8 +35,8 @@ namespace BinaryBookshelfServer.Controllers
             return category;
         }
 
-        // GET: api/Categories/5
-        [HttpGet("BookOfCategory/{id}")]
+        // GET: api/Categories/BooksOfCategory/5
+        [HttpGet("BooksOfCategory/{id}")]
         public async Task<ActionResult<IEnumerable<Book>>> GetBooksOfCategory(int id)
         {
             return await context.Books.Where(b => b.CategoryId == id).ToListAsync();

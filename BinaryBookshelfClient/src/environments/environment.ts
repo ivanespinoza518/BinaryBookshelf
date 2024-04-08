@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    baseUrl: "https://localhost:40518/"
+    baseUrl: "https://localhost:40518/api/"
 };
