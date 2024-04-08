@@ -17,7 +17,7 @@ html, body {
       color: black;
     }
   
-    tr:nth-child(odd) {
+    tbody tr:nth-child(odd) {
       background: #FFF;
       color: black;
     }

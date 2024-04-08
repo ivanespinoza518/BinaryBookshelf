@@ -14,11 +14,17 @@ namespace BinaryBookshelfServer.Controllers
     [ApiController]
     public class BooksController(ApplicationDbContext context) : ControllerBase
     {
-        // GET: api/Books
+        // GET: api/Books/?pageIndex=0&pageSize=10
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        public async Task<ActionResult<ApiResult<Book>>> GetBooks(
+            int pageIndex = 0,
+            int pageSize = 10)
         {
-            return await context.Books.ToListAsync();
+            return await ApiResult<Book>.CreateAsync(
+                context.Books.AsNoTracking(),
+                pageIndex,
+                pageSize
+                );
         }
 
         // GET: api/Books/5
