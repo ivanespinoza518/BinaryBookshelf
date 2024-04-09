@@ -252,3 +252,4 @@ C:\Users\iespi\OneDrive\Web Engineering\BinaryBookshelf\BinaryBookshelfServer\Bi
 C:\Users\iespi\OneDrive\Web Engineering\BinaryBookshelf\BinaryBookshelfServer\BinaryBookshelfServer\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\iespi\OneDrive\Web Engineering\BinaryBookshelf\BinaryBookshelfServer\BinaryBookshelfServer\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
 C:\Users\iespi\OneDrive\Web Engineering\BinaryBookshelf\BinaryBookshelfServer\BinaryBookshelfServer\bin\Debug\net8.0\CsvHelper.dll
+C:\Users\iespi\OneDrive\Web Engineering\BinaryBookshelf\BinaryBookshelfServer\BinaryBookshelfServer\bin\Debug\net8.0\System.Linq.Dynamic.Core.dll

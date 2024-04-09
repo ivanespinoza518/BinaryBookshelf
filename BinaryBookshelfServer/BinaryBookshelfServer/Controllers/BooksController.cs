@@ -14,17 +14,26 @@ namespace BinaryBookshelfServer.Controllers
     [ApiController]
     public class BooksController(ApplicationDbContext context) : ControllerBase
     {
-        // GET: api/Books/?pageIndex=0&pageSize=10
+        // GET: api/Books
+        // GET: api/Books?pageIndex=0&pageSize=10
+        // GET: api/Books?pageIndex=0&pageSize=10&sortColumn=name&sortOrder=asc
         [HttpGet]
         public async Task<ActionResult<ApiResult<Book>>> GetBooks(
             int pageIndex = 0,
-            int pageSize = 10)
+            int pageSize = 10,
+            string? sortColumn = null,
+            string? sortOrder = null,
+            string? filterColumn = null,
+            string? filterQuery = null)
         {
             return await ApiResult<Book>.CreateAsync(
                 context.Books.AsNoTracking(),
                 pageIndex,
-                pageSize
-                );
+                pageSize,
+                sortColumn,
+                sortOrder,
+                filterColumn,
+                filterQuery);
         }
 
         // GET: api/Books/5

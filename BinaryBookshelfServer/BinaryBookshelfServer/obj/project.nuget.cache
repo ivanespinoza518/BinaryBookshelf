@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0VjJuo6384bOc1a4YaKW4PuZkMz3OoZ9OUQYuz8C6CFFRcpATPO3/AEc6ZkqQ0/meyDffcWuxikkYFCqFprcXw==",
+  "dgSpecHash": "McM5xZOO4JR5RFDtbHwDZKpLwvKZrKMFSfiKrO8TlKCtRPRxuvOFh+4hDQHLuh5JqNr6rA0APaxUF43rMSFLgQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\iespi\\OneDrive\\Web Engineering\\BinaryBookshelf\\BinaryBookshelfServer\\BinaryBookshelfServer\\BinaryBookshelfServer.csproj",
   "expectedPackageFiles": [
@@ -148,6 +148,7 @@
     "C:\\Users\\iespi\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.35.0\\system.identitymodel.tokens.jwt.6.35.0.nupkg.sha512",
     "C:\\Users\\iespi\\.nuget\\packages\\system.io.filesystem.accesscontrol\\5.0.0\\system.io.filesystem.accesscontrol.5.0.0.nupkg.sha512",
     "C:\\Users\\iespi\\.nuget\\packages\\system.io.pipelines\\7.0.0\\system.io.pipelines.7.0.0.nupkg.sha512",
+    "C:\\Users\\iespi\\.nuget\\packages\\system.linq.dynamic.core\\1.3.10\\system.linq.dynamic.core.1.3.10.nupkg.sha512",
     "C:\\Users\\iespi\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
     "C:\\Users\\iespi\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
     "C:\\Users\\iespi\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",

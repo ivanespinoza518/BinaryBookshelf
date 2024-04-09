@@ -16,9 +16,22 @@ namespace BinaryBookshelfServer.Controllers
     {
         // GET: api/Categories
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        public async Task<ActionResult<ApiResult<Category>>> GetCategories(
+            int pageIndex = 0,
+            int pageSize = 10,
+            string? sortColumn = null,
+            string? sortOrder = null,
+            string? filterColumn = null,
+            string? filterQuery = null)
         {
-            return await context.Categories.ToListAsync();
+            return await ApiResult<Category>.CreateAsync(
+                context.Categories.AsNoTracking(),
+                pageIndex,
+                pageSize,
+                sortColumn,
+                sortOrder,
+                filterColumn,
+                filterQuery);
         }
 
         // GET: api/Categories/5
