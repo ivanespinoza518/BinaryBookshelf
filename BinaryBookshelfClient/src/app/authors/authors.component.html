@@ -10,7 +10,7 @@
 </button>
 
 <mat-form-field [hidden]="!authors">
-    <input matInput #filter (keyup)="loadData(filter.value)"
+    <input matInput #filter (keyup)="onFilterTextChanged(filter.value)"
         placeholder="Filter by Author names...">
 </mat-form-field>
 
