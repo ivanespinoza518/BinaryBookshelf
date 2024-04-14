@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BinaryBookshelfServer.Data;
 using BinaryBookshelfServer.Data.Models;
+using System.Diagnostics.Metrics;
 
 namespace BinaryBookshelfServer.Controllers
 {
@@ -116,6 +117,34 @@ namespace BinaryBookshelfServer.Controllers
         private bool AuthorExists(int id)
         {
             return context.Authors.Any(e => e.Id == id);
+        }
+
+        [HttpPost]
+        [Route("IsDupeField")]
+        public bool IsDupeField(
+            int authorId,
+            string fieldName,
+            string fieldValue)
+        {
+            switch (fieldName)
+            {
+                case "name":
+                    return context.Authors.Any(
+                    a => a.Name == fieldValue && a.Id != authorId);
+                case "background":
+                    return context.Authors.Any(
+                    a => a.Background == fieldValue && a.Id != authorId);
+                default:
+                    return false;
+            }
+            //// Alternative approach (using System.Linq.Dynamic.Core)
+            //// This method is more DRY but adds overhead from Linq.Dynamic.Core
+            //return (ApiResult<Author>.IsValidProperty(fieldName, true))
+            //? context.Authors.Any(
+            //string.Format("{0} == @0 && Id != @1", fieldName),
+            //fieldValue,
+            //authorId)
+            //: false;
         }
     }
 }

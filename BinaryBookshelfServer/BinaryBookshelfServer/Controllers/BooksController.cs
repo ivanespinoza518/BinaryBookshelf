@@ -112,5 +112,19 @@ namespace BinaryBookshelfServer.Controllers
         {
             return context.Books.Any(e => e.Id == id);
         }
+
+        [HttpPost]
+        [Route("IsDupeBook")]
+        public bool IsDupeBook(Book book)
+        {
+            return context.Books.AsNoTracking().Any(
+                e => e.Title == book.Title
+                && e.Subtitle == book.Subtitle
+                && e.Edition == book.Edition
+                && e.Isbn13 == book.Isbn13
+                && e.AuthorId == book.AuthorId
+                && e.CategoryId == book.CategoryId
+                && e.Id != book.Id);
+        }
     }
 }

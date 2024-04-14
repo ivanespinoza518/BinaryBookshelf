@@ -117,5 +117,22 @@ namespace BinaryBookshelfServer.Controllers
         {
             return context.Categories.Any(e => e.Id == id);
         }
+
+        [HttpPost]
+        [Route("IsDupeField")]
+        public bool IsDupeField(
+            int categoryId,
+            string fieldName,
+            string fieldValue)
+        {
+            switch (fieldName)
+            {
+                case "label":
+                    return context.Categories.Any(
+                    c => c.Label == fieldValue && c.Id != categoryId);
+                default:
+                    return false;
+            }
+        }
     }
 }

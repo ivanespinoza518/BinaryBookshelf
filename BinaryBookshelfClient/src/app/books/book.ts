@@ -7,4 +7,6 @@ export interface Book {
     isbn13: string;
     imageUrl: string;
     price: number;
+    authorId: number;
+    categoryId: number;
 }

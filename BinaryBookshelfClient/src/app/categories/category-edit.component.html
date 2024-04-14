@@ -1,0 +1,33 @@
+<div class="category-edit">
+    <h1>{{title}}</h1>
+    @if (id && !category) {
+      <p><em>Loading...</em></p>
+    }
+    
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  
+      <!-- Label -->
+      <mat-form-field>
+        <mat-label>Category:</mat-label>
+        <input matInput formControlName="label" required
+               placeholder="Enter a category">
+        @if (form.controls['label'].errors?.['required']) {
+          <mat-error>Category is required.</mat-error>
+        }
+        @if (form.controls['label'].errors?.['isDupeField']) {
+          <mat-error>Category already exists: please enter another.</mat-error>
+        }
+      </mat-form-field>
+
+      <div>
+        <button mat-flat-button color="primary"
+                type="submit" [disabled]="!form.valid">
+          {{ id ? "Save" : "Create" }}
+        </button>
+        <button mat-flat-button color="secondary"
+                [routerLink]="['/categories']">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>

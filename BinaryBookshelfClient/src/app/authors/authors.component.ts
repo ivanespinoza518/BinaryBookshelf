@@ -4,7 +4,9 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { RouterLink } from '@angular/router';
 
 import { Author } from './author';
 import { environment } from '../../environments/environment';
@@ -17,7 +19,9 @@ import { environment } from '../../environments/environment';
     MatPaginator,
     MatSortModule,
     MatFormFieldModule,
-    MatInputModule
+    MatButtonModule,
+    MatInputModule,
+    RouterLink
   ],
   templateUrl: './authors.component.html',
   styleUrl: './authors.component.scss'
