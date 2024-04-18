@@ -11,6 +11,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { Category } from './category';
+import { BaseFormComponent } from '../base-form.component';
 
 @Component({
   selector: 'app-category-edit',
@@ -26,12 +27,9 @@ import { Category } from './category';
   templateUrl: './category-edit.component.html',
   styleUrl: './category-edit.component.scss'
 })
-export class CategoryEditComponent implements OnInit {
+export class CategoryEditComponent extends BaseFormComponent implements OnInit {
 // the view title
   title?: string;
-
-  // the form model
-  form!: FormGroup;
 
   // the category object to edit or create
   category?: Category;
@@ -49,6 +47,7 @@ export class CategoryEditComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private http: HttpClient) {
+      super();
     }
 
   ngOnInit() {

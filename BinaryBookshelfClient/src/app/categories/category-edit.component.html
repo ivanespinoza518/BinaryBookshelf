@@ -11,11 +11,8 @@
         <mat-label>Category:</mat-label>
         <input matInput formControlName="label" required
                placeholder="Enter a category">
-        @if (form.controls['label'].errors?.['required']) {
-          <mat-error>Category is required.</mat-error>
-        }
-        @if (form.controls['label'].errors?.['isDupeField']) {
-          <mat-error>Category already exists: please enter another.</mat-error>
+        @for (error of getErrors(form.get('label')!, 'Category'); track error) {
+          <mat-error>{{error}}</mat-error>
         }
       </mat-form-field>
 

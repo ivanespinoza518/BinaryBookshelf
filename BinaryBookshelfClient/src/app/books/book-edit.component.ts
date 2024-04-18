@@ -13,6 +13,7 @@ import { environment } from '../../environments/environment';
 import { Book } from './book';
 import { Author } from '../authors/author';
 import { Category } from '../categories/category';
+import { BaseFormComponent } from '../base-form.component';
 
 @Component({
   selector: 'app-book-edit',
@@ -28,12 +29,9 @@ import { Category } from '../categories/category';
   templateUrl: './book-edit.component.html',
   styleUrl: './book-edit.component.scss'
 })
-export class BookEditComponent implements OnInit {
+export class BookEditComponent extends BaseFormComponent implements OnInit {
   // the view title
   viewTitle?: string;
-
-  // the form model
-  form!: FormGroup;
 
   // the book object to edit or create
   book?: Book;
@@ -55,6 +53,7 @@ export class BookEditComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private http: HttpClient) {
+      super();
   }
 
   ngOnInit() {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRoute, RouterLink, Router } from '@angular/router';
-import { ReactiveFormsModule, FormGroup, FormBuilder, Validators, AbstractControl, AsyncValidatorFn } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -11,6 +11,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { Author } from './author';
+import { BaseFormComponent } from '../base-form.component';
 
 @Component({
   selector: 'app-author-edit',
@@ -26,12 +27,9 @@ import { Author } from './author';
   templateUrl: './author-edit.component.html',
   styleUrl: './author-edit.component.scss'
 })
-export class AuthorEditComponent implements OnInit {
+export class AuthorEditComponent extends BaseFormComponent implements OnInit {
   // the view title
   title?: string;
-
-  // the form model
-  form!: FormGroup;
 
   // the author object to edit or create
   author?: Author;
@@ -49,6 +47,7 @@ export class AuthorEditComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private http: HttpClient) {
+      super();
     }
 
   ngOnInit() {

@@ -11,11 +11,8 @@
         <mat-label>Name:</mat-label>
         <input matInput formControlName="name" required
                placeholder="Type a name">
-        @if (form.controls['name'].errors?.['required']) {
-          <mat-error>Name is required.</mat-error>
-        }
-        @if (form.controls['name'].errors?.['isDupeField']) {
-          <mat-error>Name already exists: please enter another.</mat-error>
+        @for (error of getErrors(form.get('name')!, 'Name'); track error) {
+          <mat-error>{{error}}</mat-error>
         }
       </mat-form-field>
   
@@ -24,11 +21,8 @@
         <mat-label>Background:</mat-label>
         <input matInput formControlName="background" required
                placeholder="Type in author background">
-        @if (form.controls['background'].errors?.['required']) {
-          <mat-error>Background is required.</mat-error>
-        }
-        @if (form.controls['background'].errors?.['isDupeField']) {
-          <mat-error>This background already exists: please enter another.</mat-error>
+        @for (error of getErrors(form.get('background')!, 'Background'); track error) {
+          <mat-error>{{error}}</mat-error>
         }
       </mat-form-field>
 
