@@ -30,7 +30,7 @@
         <!-- Subtitle -->
         <mat-form-field>
             <mat-label>Subtitle:</mat-label>
-            <input matInput formControlName="subtitle" required
+            <input matInput formControlName="subtitle"
                 placeholder="Enter a subtitle">
         </mat-form-field>
         
@@ -49,7 +49,8 @@
             <mat-label>Edition:</mat-label>
             <input matInput formControlName="edition" required
                 placeholder="Enter an edition">
-            @for (error of getErrors(form.get('edition')!, 'Edition'); track error) {
+            @for (error of getErrors(form.get('edition')!, 'Edition',
+                { 'pattern' : 'must be a positive number.'}); track error) {
                 <mat-error>{{error}}</mat-error>
             }
         </mat-form-field>
@@ -59,7 +60,8 @@
             <mat-label>ISBN-13:</mat-label>
             <input matInput formControlName="isbn13" required
                 placeholder="Enter an ISBN-13">
-            @for (error of getErrors(form.get('isbn13')!, 'ISBN-13'); track error) {
+            @for (error of getErrors(form.get('isbn13')!, 'ISBN-13',
+                { 'pattern' : 'is invalid.'}); track error) {
                 <mat-error>{{error}}</mat-error>
             }
         </mat-form-field>
@@ -79,7 +81,8 @@
             <mat-label>Price:</mat-label>
             <input matInput formControlName="price" required
                 placeholder="Enter a price">
-            @for (error of getErrors(form.get('price')!, 'Price'); track error) {
+            @for (error of getErrors(form.get('price')!, 'Price', 
+                { 'pattern' : 'requires a dollar and/or cent amount.'}); track error) {
                 <mat-error>{{error}}</mat-error>
             }
         </mat-form-field>

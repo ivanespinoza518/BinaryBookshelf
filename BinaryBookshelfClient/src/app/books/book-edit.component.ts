@@ -61,10 +61,19 @@ export class BookEditComponent extends BaseFormComponent implements OnInit {
       title: new FormControl('', Validators.required),
       subtitle: new FormControl(''),
       description: new FormControl('', Validators.required),
-      edition: new FormControl('', Validators.required),
-      isbn13: new FormControl('', Validators.required),
+      edition: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[1-9]+[0-9]*$/)
+      ]),
+      isbn13: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^97[89][-][0-9]{10}$/)
+      ]),
       imageUrl: new FormControl('', Validators.required),
-      price: new FormControl('', Validators.required),
+      price: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^([0-9]+(\.[0-9]{1,2})?)|(\.[0-9]{1,2})$/)
+      ]),
       authorId: new FormControl('', Validators.required),
       categoryId: new FormControl('', Validators.required)
     }, null, this.isDupeBook());
