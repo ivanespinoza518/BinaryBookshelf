@@ -10,3 +10,13 @@ mat-form-field {
 .btn-add {
     float: right;
 }
+
+.background-cell {
+    width: auto;
+    max-width: 55em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}

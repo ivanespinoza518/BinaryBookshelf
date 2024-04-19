@@ -27,7 +27,7 @@
         <td mat-cell *matCellDef="let author">{{author.id}}</td>
     </ng-container>
     
-    <!-- Title Column -->
+    <!-- Name Column -->
     <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Author</th>
         <td mat-cell *matCellDef="let author">
@@ -35,10 +35,16 @@
         </td>
     </ng-container>
 
-    <!-- Edition Column -->
+    <!-- Background Column -->
     <ng-container matColumnDef="background">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Background</th>
-        <td mat-cell *matCellDef="let author">{{author.background}}</td>
+        <td mat-cell class="background-cell" *matCellDef="let author">{{author.background}}</td>
+    </ng-container>
+
+    <!-- Total Books Column -->
+    <ng-container matColumnDef="totalBooks">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Number of Books</th>
+        <td mat-cell *matCellDef="let author"> {{author.totalBooks}} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

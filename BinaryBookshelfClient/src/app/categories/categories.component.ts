@@ -29,7 +29,7 @@ import { Category } from './category';
   styleUrl: './categories.component.scss'
 })
 export class CategoriesComponent implements OnInit {
-  public displayedColumns: string[] = [ 'id', 'label' ];
+  public displayedColumns: string[] = [ 'id', 'label', 'totalBooks' ];
   public categories!: MatTableDataSource<Category>;
 
   defaultPageIndex: number = 0;

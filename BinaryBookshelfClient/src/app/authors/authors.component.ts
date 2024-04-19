@@ -29,7 +29,7 @@ import { environment } from '../../environments/environment';
   styleUrl: './authors.component.scss'
 })
 export class AuthorsComponent implements OnInit {
-  public displayedColumns: string[] = [ 'id', 'name', 'background' ];
+  public displayedColumns: string[] = [ 'id', 'name', 'background', 'totalBooks' ];
   public authors!: MatTableDataSource<Author>;
 
   defaultPageIndex: number = 0;

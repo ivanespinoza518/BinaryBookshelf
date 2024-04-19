@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BinaryBookshelfServer.Data;
+using BinaryBookshelfServer.Data.Dto;
 using BinaryBookshelfServer.Data.Models;
 
 namespace BinaryBookshelfServer.Controllers
@@ -16,7 +17,7 @@ namespace BinaryBookshelfServer.Controllers
     {
         // GET: api/Categories
         [HttpGet]
-        public async Task<ActionResult<ApiResult<Category>>> GetCategories(
+        public async Task<ActionResult<ApiResult<CategoryDTO>>> GetCategories(
             int pageIndex = 0,
             int pageSize = 10,
             string? sortColumn = null,
@@ -24,8 +25,14 @@ namespace BinaryBookshelfServer.Controllers
             string? filterColumn = null,
             string? filterQuery = null)
         {
-            return await ApiResult<Category>.CreateAsync(
-                context.Categories.AsNoTracking(),
+            return await ApiResult<CategoryDTO>.CreateAsync(
+                context.Categories.AsNoTracking()
+                    .Select(c => new CategoryDTO()
+                    {
+                        Id = c.Id,
+                        Label = c.Label,
+                        TotalBooks = c.Books!.Count
+                    }),
                 pageIndex,
                 pageSize,
                 sortColumn,

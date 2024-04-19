@@ -8,5 +8,7 @@ export interface Book {
     imageUrl: string;
     price: number;
     authorId: number;
+    authorName: string;
     categoryId: number;
+    categoryLabel: string;
 }

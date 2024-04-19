@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BinaryBookshelfServer.Data;
+using BinaryBookshelfServer.Data.Dto;
 using BinaryBookshelfServer.Data.Models;
-using System.Diagnostics.Metrics;
 
 namespace BinaryBookshelfServer.Controllers
 {
@@ -17,7 +12,7 @@ namespace BinaryBookshelfServer.Controllers
     {
         // GET: api/Authors
         [HttpGet]
-        public async Task<ActionResult<ApiResult<Author>>> GetAuthors(
+        public async Task<ActionResult<ApiResult<AuthorDTO>>> GetAuthors(
             int pageIndex = 0,
             int pageSize = 10,
             string? sortColumn = null,
@@ -25,8 +20,15 @@ namespace BinaryBookshelfServer.Controllers
             string? filterColumn = null,
             string? filterQuery = null)
         {
-            return await ApiResult<Author>.CreateAsync(
-                context.Authors.AsNoTracking(),
+            return await ApiResult<AuthorDTO>.CreateAsync(
+                context.Authors.AsNoTracking()
+                    .Select(a => new AuthorDTO()
+                    {
+                        Id = a.Id,
+                        Name = a.Name,
+                        Background = a.Background,
+                        TotalBooks = a.Books!.Count
+                    }),
                 pageIndex,
                 pageSize,
                 sortColumn,

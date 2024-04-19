@@ -31,7 +31,7 @@ import { Book } from './book';
   styleUrl: './books.component.scss'
 })
 export class BooksComponent implements OnInit {
-  public displayedColumns: string[] = [ 'id', 'title', 'edition', 'isbn13', 'price' ];
+  public displayedColumns: string[] = [ 'id', 'title', 'authorName', 'categoryLabel', 'price', 'isbn13' ];
   public books!: MatTableDataSource<Book>;
 
   defaultPageIndex: number = 0;
