@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSortModule, MatSort } from '@angular/material/sort';
@@ -11,7 +10,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 
 import { Author } from './author';
-import { environment } from '../../environments/environment';
+import { AuthorService } from './author.service';
 
 @Component({
   selector: 'app-authors',
@@ -45,7 +44,7 @@ export class AuthorsComponent implements OnInit {
 
   filterTextChanged: Subject<string> = new Subject<string>();
 
-  constructor(private http: HttpClient) {
+  constructor(private authorService: AuthorService) {
   }
 
   ngOnInit() {
@@ -73,23 +72,29 @@ export class AuthorsComponent implements OnInit {
   }
 
   getData(event: PageEvent) {
-    var params = new HttpParams()
-      .set("pageIndex", event.pageIndex.toString())
-      .set("pageSize", event.pageSize.toString())
-      .set("sortColumn", (this.sort)
-        ? this.sort.active
-        : this.defaultSortColumn)
-      .set("sortOrder", (this.sort)
-        ? this.sort.direction
-        : this.defaultSortOrder);
+    const sortColumn = (this.sort)
+      ? this.sort.active
+      : this.defaultSortColumn;
 
-    if (this.filterQuery) {
-      params = params
-          .set("filterColumn", this.defaultFilterColumn)
-          .set("filterQuery", this.filterQuery);
-    }
+    const sortOrder = (this.sort)
+      ? this.sort.direction
+      : this.defaultSortOrder;
 
-    this.http.get<any>(`${environment.baseUrl}Authors`, { params })
+    const filterColumn = (this.filterQuery)
+      ? this.defaultFilterColumn
+      : null;
+
+    const filterQuery = (this.filterQuery)
+      ? this.filterQuery
+      : null;
+
+    this.authorService.getData(
+      event.pageIndex,
+      event.pageSize,
+      sortColumn,
+      sortOrder,
+      filterColumn,
+      filterQuery)
       .subscribe({
         next: (result) => {
           this.paginator.length = result.totalCount;

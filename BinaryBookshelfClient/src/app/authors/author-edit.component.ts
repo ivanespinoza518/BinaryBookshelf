@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators, AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,8 +8,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { environment } from '../../environments/environment';
 import { Author } from './author';
+import { AuthorService } from './author.service';
 import { BaseFormComponent } from '../base-form.component';
 
 @Component({
@@ -46,7 +45,7 @@ export class AuthorEditComponent extends BaseFormComponent implements OnInit {
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private http: HttpClient) {
+    private authorService: AuthorService) {
       super();
     }
 
@@ -69,12 +68,11 @@ export class AuthorEditComponent extends BaseFormComponent implements OnInit {
     // retrieve the ID from the 'id' parameter
     const idParam = this.activatedRoute.snapshot.paramMap.get('id');
     this.id = idParam ? +idParam : 0;
-    if (this.id) {
-      // EDIT MODE
 
+    if (this.id) { 
+      // EDIT MODE
       // fetch the author from the server
-      const url = `${environment.baseUrl}Authors/${this.id}`;
-      this.http.get<Author>(url).subscribe({
+      this.authorService.get(this.id).subscribe({
         next: (result) => {
           this.author = result;
           this.title = "Edit - " + this.author.name;
@@ -87,7 +85,6 @@ export class AuthorEditComponent extends BaseFormComponent implements OnInit {
     }
     else {
       // ADD NEW MODE
-
       this.title = "Create a new Author";
     }
   }
@@ -100,9 +97,8 @@ export class AuthorEditComponent extends BaseFormComponent implements OnInit {
       
       if (this.id) {
         // EDIT MODE
-        const url = `${environment.baseUrl}Authors/${author.id}`;
-        this.http
-          .put<Author>(url, author)
+        this.authorService
+          .put(author)
           .subscribe({
             next: (result) => {
               console.log("Author " + author!.id + " has been updated.");
@@ -115,9 +111,8 @@ export class AuthorEditComponent extends BaseFormComponent implements OnInit {
       }
       else {
         // ADD NEW mode
-        const url = `${environment.baseUrl}Authors`;
-        this.http
-          .post<Author>(url, author)
+        this.authorService
+          .post(author)
           .subscribe({
             next: (result) => {
               console.log("Author " + result.id + " has been created.");
@@ -132,16 +127,11 @@ export class AuthorEditComponent extends BaseFormComponent implements OnInit {
   }
 
   isDupeField(fieldName: string): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<{
-      [key: string]: any
-    } | null> => {
-
-      const params = new HttpParams()
-        .set("authorId", (this.id) ? this.id.toString() : "0")
-        .set("fieldName", fieldName)
-        .set("fieldValue", control.value);
-      const url = `${environment.baseUrl}Authors/IsDupeField`;
-      return this.http.post<boolean>(url, null, { params })
+    return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
+      return this.authorService.isDupeField(
+        this.id ?? 0,
+        fieldName,
+        control.value)
         .pipe(map(result => {
           return (result ? { isDupeField: true } : null);
         }));

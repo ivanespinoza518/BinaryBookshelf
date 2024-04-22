@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -9,10 +8,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { environment } from '../../environments/environment';
 import { Book } from './book';
 import { Author } from '../authors/author';
 import { Category } from '../categories/category';
+import { BookService } from './book.service';
 import { BaseFormComponent } from '../base-form.component';
 
 @Component({
@@ -47,13 +46,11 @@ export class BookEditComponent extends BaseFormComponent implements OnInit {
   // the categories array for the select
   categories?: Category[];
 
-  [key: string]: any;
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private http: HttpClient) {
-      super();
+    private bookService: BookService) {
+    super();
   }
 
   ngOnInit() {
@@ -83,10 +80,10 @@ export class BookEditComponent extends BaseFormComponent implements OnInit {
 
   loadData() {
     // load authors
-    this.loadResources('Authors', 'name', 'authors');
+    this.loadResources<Author>("Authors", "name");
 
     // load categories
-    this.loadResources('Categories', 'label', 'categories');
+    this.loadResources<Category>("Categories", "label");
 
     // retrieve the ID from the 'id' parameter
     var idParam = this.activatedRoute.snapshot.paramMap.get('id');
@@ -94,8 +91,7 @@ export class BookEditComponent extends BaseFormComponent implements OnInit {
 
     if (this.id) { // EDIT MODE
       // fetch the book from the server
-      var url = `${environment.baseUrl}Books/${this.id}`;
-      this.http.get<Book>(url).subscribe({
+      this.bookService.get(this.id).subscribe({
         next: (result) => {
           this.book = result;
           this.viewTitle = "Edit - " + this.book.title;
@@ -111,21 +107,26 @@ export class BookEditComponent extends BaseFormComponent implements OnInit {
     }
   }
 
-  loadResources(resource: string, sortColumn: string, targetProperty: string) {
-    const url = `${environment.baseUrl}${resource}`;
-    const params = new HttpParams()
-      .set("pageIndex", "0")
-      .set("pageSize", "9999")
-      .set("sortColumn", sortColumn);
-  
-    this.http.get<any>(url, { params }).subscribe({
+  loadResources<T>(resource: string, sortColumn: string) {
+    this.bookService.getResources<T>(
+      resource,
+      0,
+      9999,
+      sortColumn,
+      "asc",
+      null,
+      null).subscribe({
       next: (result) => {
-        this[targetProperty] = result.data;
+        if (resource === 'Authors') {
+          this.authors = result.data as Author[];
+        }
+        else if (resource === 'Categories') {
+          this.categories = result.data as Category[];
+        }
       },
       error: (error) => console.error(error)
     });
   }
-  
 
   onSubmit() {
     var book = (this.id) ? this.book : <Book>{};
@@ -140,8 +141,8 @@ export class BookEditComponent extends BaseFormComponent implements OnInit {
       book.categoryId = +this.form.controls['categoryId'].value;
 
       if (this.id) {
-        var url = `${environment.baseUrl}Books/${book.id}`;
-        this.http.put<Book>(url, book)
+        this.bookService
+          .put(book)
           .subscribe({
             next: (result) => {
               console.log(`Book ${book!.id} has been updated.`);
@@ -153,8 +154,8 @@ export class BookEditComponent extends BaseFormComponent implements OnInit {
           });
       }
       else { // ADD NEW MODE
-        var url = `${environment.baseUrl}Books`;
-        this.http.post<Book>(url, book)
+        this.bookService
+          .post(book)
           .subscribe({
             next: (result) => {
               console.log(`Book ${result.id} has been created.`);
@@ -169,7 +170,7 @@ export class BookEditComponent extends BaseFormComponent implements OnInit {
 
   isDupeBook(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
-      var book = <Book>{};
+      let book = <Book>{};
       book.id = (this.id) ? this.id : 0;
       book.title = this.form.controls['title'].value;
       book.subtitle = this.form.controls['subtitle']?.value;
@@ -181,11 +182,10 @@ export class BookEditComponent extends BaseFormComponent implements OnInit {
       book.authorId = +this.form.controls['authorId'].value;
       book.categoryId = +this.form.controls['categoryId'].value;
 
-      const url = `${environment.baseUrl}Books/IsDupeBook`;
-      return this.http.post<boolean>(url, book).pipe(map(result => {
-
-        return (result ? { isDupeBook: true }: null);
-      }));
+      return this.bookService.isDupeBook(book)
+        .pipe(map(result => {
+          return (result ? { isDupeBook: true }: null);
+        }));
     }
   }
 }

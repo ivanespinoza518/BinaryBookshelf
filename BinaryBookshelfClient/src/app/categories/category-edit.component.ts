@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRoute, RouterLink, Router } from '@angular/router';
-import { ReactiveFormsModule, FormGroup, FormBuilder, Validators, AbstractControl, AsyncValidatorFn } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -9,8 +8,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { environment } from '../../environments/environment';
 import { Category } from './category';
+import { CategoryService } from './category.service';
 import { BaseFormComponent } from '../base-form.component';
 
 @Component({
@@ -46,7 +45,7 @@ export class CategoryEditComponent extends BaseFormComponent implements OnInit {
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private http: HttpClient) {
+    private categoryService: CategoryService) {
       super();
     }
 
@@ -67,10 +66,8 @@ export class CategoryEditComponent extends BaseFormComponent implements OnInit {
     this.id = idParam ? +idParam : 0;
     if (this.id) {
       // EDIT MODE
-
       // fetch the category from the server
-      const url = `${environment.baseUrl}Categories/${this.id}`;
-      this.http.get<Category>(url).subscribe({
+      this.categoryService.get(this.id).subscribe({
         next: (result) => {
           this.category = result;
           this.title = "Edit - " + this.category.label;
@@ -83,7 +80,6 @@ export class CategoryEditComponent extends BaseFormComponent implements OnInit {
     }
     else {
       // ADD NEW MODE
-
       this.title = "Create a new Category";
     }
   }
@@ -95,9 +91,8 @@ export class CategoryEditComponent extends BaseFormComponent implements OnInit {
       
       if (this.id) {
         // EDIT MODE
-        const url = `${environment.baseUrl}Categories/${category.id}`;
-        this.http
-          .put<Category>(url, category)
+        this.categoryService
+          .put(category)
           .subscribe({
             next: (result) => {
               console.log("Category " + category!.id + " has been updated.");
@@ -110,9 +105,8 @@ export class CategoryEditComponent extends BaseFormComponent implements OnInit {
       }
       else {
         // ADD NEW mode
-        const url = `${environment.baseUrl}Categories`;
-        this.http
-          .post<Category>(url, category)
+        this.categoryService
+          .post(category)
           .subscribe({
             next: (result) => {
               console.log("Category " + result.id + " has been created.");
@@ -127,16 +121,11 @@ export class CategoryEditComponent extends BaseFormComponent implements OnInit {
   }
 
   isDupeField(fieldName: string): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<{
-      [key: string]: any
-    } | null> => {
-
-      const params = new HttpParams()
-        .set("categoryId", (this.id) ? this.id.toString() : "0")
-        .set("fieldName", fieldName)
-        .set("fieldValue", control.value);
-      const url = `${environment.baseUrl}Categories/IsDupeField`;
-      return this.http.post<boolean>(url, null, { params })
+    return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
+      return this.categoryService.isDupeField(
+        this.id ?? 0,
+        fieldName,
+        control.value)
         .pipe(map(result => {
           return (result ? { isDupeField: true } : null);
         }));
